@@ -29,96 +29,201 @@
     font-size: 16px;
 }
 
-body {
-    position: absolute;
-    inset: 2rem;
-    display: grid;
-    grid-template:
-        "button option" 1fr
-        "key checknext" 1fr
-        / 5fr 2fr
-    ;
-    gap: 1rem;
-    place-items: center;
-    .play {
-        grid-area: button;
-        height: 90%;
-        aspect-ratio: 1 / 1;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-        background-color: #eeeb;
-        .material-symbols-outlined {
-            /* color: #75FBFD; */
-            color: #555;
-            font-size: 200px;
-        }
-    }
-    .option {
-        grid-area: option;
-        form {
-            font-size: 2rem;
-        }
-    }
-    .keys {
-        grid-area: key;
-        width: 100%;
-        height: 100%;
+@media screen and (orientation: landscape) {
+    body {
+        position: absolute;
+        inset: 2rem;
         display: grid;
         grid-template:
-            "C D E F G A B" 1fr
-            / 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+            "button option" 1fr
+            "key checknext" 1fr
+            / 5fr 2fr
         ;
-        position: relative;
-        .key {
-            display: grid;
-            justify-items: center;
-            align-items: end;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-        .key.correct {background-color: #99ff99;}
-        .key.wrong {background-color: #ff9999;}
-        .black {
-            width: calc(100% * 2 / 21);
-            height: calc(100% * 2 / 3);
-            background-color: black;
-            color: white;
-            position: absolute;
-            top: 0;
-            translate: -50% 0;
-        }
-        .white {
-            background-color: white;
-            border-block: solid 1px black;
-            border-left: solid 1px black;
-        }
-        .black:hover {background-color: #444;}
-        .white:hover {background-color: #eee;}
-        .C {grid-area: C;}
-        .D {grid-area: D;}
-        .E {grid-area: E;}
-        .F {grid-area: F;}
-        .G {grid-area: G;}
-        .A {grid-area: A;}
-        .B {grid-area: B; border-right: solid 1px black;}
-        .bD {left: calc(100% / 7);}
-        .bE {left: calc(100% * 2 / 7);}
-        .bG {left: calc(100% * 4 / 7);}
-        .bA {left: calc(100% * 5 / 7);}
-        .bB {left: calc(100% * 6 / 7);}
-    }
-    .checknext {
-        grid-area: checknext;
-        /* width: calc(100% - 2rem);
-        height: calc(100% - 2rem); */
-        width: 100%;
-        height: 100%;
-        background-color: #2b92f3;
-        color: white;
-        display: grid;
+        gap: 1rem;
         place-items: center;
-        font-size: 3rem;
+        .play {
+            grid-area: button;
+            height: 90%;
+            aspect-ratio: 1 / 1;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background-color: #eeeb;
+            .material-symbols-outlined {
+                /* color: #75FBFD; */
+                color: #555;
+                font-size: 200px;
+            }
+        }
+        .option {
+            grid-area: option;
+            form {
+                font-size: 2rem;
+            }
+        }
+        .keys {
+            grid-area: key;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template:
+                "C D E F G A B" 1fr
+                / 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+            ;
+            position: relative;
+            .key {
+                display: grid;
+                justify-items: center;
+                align-items: end;
+                font-size: 1.5rem;
+                text-align: center;
+                padding-bottom: 1rem;
+            }
+            .key.correct {background-color: #99ff99;}
+            .key.wrong {background-color: #ff9999;}
+            .black {
+                width: calc(100% * 2 / 21);
+                height: calc(100% * 2 / 3);
+                background-color: black;
+                color: white;
+                position: absolute;
+                top: 0;
+                translate: -50% 0;
+            }
+            .white {
+                background-color: white;
+                border-block: solid 1px black;
+                border-left: solid 1px black;
+            }
+            .black:hover {background-color: #444;}
+            .white:hover {background-color: #eee;}
+            .C {grid-area: C;}
+            .D {grid-area: D;}
+            .E {grid-area: E;}
+            .F {grid-area: F;}
+            .G {grid-area: G;}
+            .A {grid-area: A;}
+            .B {grid-area: B; border-right: solid 1px black;}
+            .bD {left: calc(100% / 7);}
+            .bE {left: calc(100% * 2 / 7);}
+            .bG {left: calc(100% * 4 / 7);}
+            .bA {left: calc(100% * 5 / 7);}
+            .bB {left: calc(100% * 6 / 7);}
+        }
+        .checknext {
+            grid-area: checknext;
+            /* width: calc(100% - 2rem);
+            height: calc(100% - 2rem); */
+            width: 100%;
+            height: 100%;
+            background-color: #2b92f3;
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 3rem;
+        }
+    }
+}
+@media screen and (orientation: portrait) {
+    body {
+        position: absolute;
+        inset: 1rem;
+        display: grid;
+        grid-template:
+            "option" auto
+            "button" 1fr
+            "checknext" auto
+            "key" 1fr
+            / 1fr
+        ;
+        gap: 1rem;
+        place-items: center;
+        .play {
+            grid-area: button;
+            height: 90%;
+            aspect-ratio: 1 / 1;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background-color: #eeeb;
+            .material-symbols-outlined {
+                /* color: #75FBFD; */
+                color: #555;
+                font-size: 140px;
+            }
+        }
+        .option {
+            grid-area: option;
+            form {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                font-size: 1rem;
+            }
+        }
+        .keys {
+            grid-area: key;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template:
+                "C D E F G A B" 1fr
+                / 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+            ;
+            position: relative;
+            .key {
+                writing-mode: vertical-lr;
+                text-orientation: upright;
+                display: grid;
+                justify-items: end;
+                align-items: center;
+                font-size: 1rem;
+                padding-bottom: 1rem;
+            }
+            .key.correct {background-color: #99ff99;}
+            .key.wrong {background-color: #ff9999;}
+            .black {
+                width: calc(100% * 2 / 21);
+                height: calc(100% * 2 / 3);
+                background-color: black;
+                color: white;
+                position: absolute;
+                top: 0;
+                translate: -50% 0;
+            }
+            .white {
+                background-color: white;
+                border-block: solid 1px black;
+                border-left: solid 1px black;
+            }
+            .black:hover {background-color: #444;}
+            .white:hover {background-color: #eee;}
+            .C {grid-area: C;}
+            .D {grid-area: D;}
+            .E {grid-area: E;}
+            .F {grid-area: F;}
+            .G {grid-area: G;}
+            .A {grid-area: A;}
+            .B {grid-area: B; border-right: solid 1px black;}
+            .bD {left: calc(100% / 7);}
+            .bE {left: calc(100% * 2 / 7);}
+            .bG {left: calc(100% * 4 / 7);}
+            .bA {left: calc(100% * 5 / 7);}
+            .bB {left: calc(100% * 6 / 7);}
+        }
+        .checknext {
+            grid-area: checknext;
+            /* width: calc(100% - 2rem);
+            height: calc(100% - 2rem); */
+            width: 100%;
+            height: 100%;
+            padding-bottom: .25rem;
+            background-color: #2b92f3;
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+        }
     }
 }
 </style>
