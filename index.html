@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音階クイズ</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=music_note" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=music_note" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+:root {
+    font-size: 16px;
+}
+
+body {
+    position: absolute;
+    inset: 2rem;
+    display: grid;
+    grid-template:
+        "button option" 1fr
+        "key checknext" 1fr
+        / 5fr 2fr
+    ;
+    gap: 1rem;
+    place-items: center;
+    .play {
+        grid-area: button;
+        height: 90%;
+        aspect-ratio: 1 / 1;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background-color: #eeeb;
+        .material-symbols-outlined {
+            /* color: #75FBFD; */
+            color: #555;
+            font-size: 200px;
+        }
+    }
+    .option {
+        grid-area: option;
+        form {
+            font-size: 2rem;
+        }
+    }
+    .keys {
+        grid-area: key;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template:
+            "C D E F G A B" 1fr
+            / 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        ;
+        position: relative;
+        .key {
+            display: grid;
+            justify-items: center;
+            align-items: end;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .key.correct {background-color: #99ff99;}
+        .key.wrong {background-color: #ff9999;}
+        .black {
+            width: calc(100% * 2 / 21);
+            height: calc(100% * 2 / 3);
+            background-color: black;
+            color: white;
+            position: absolute;
+            top: 0;
+            translate: -50% 0;
+        }
+        .white {
+            background-color: white;
+            border-block: solid 1px black;
+            border-left: solid 1px black;
+        }
+        .black:hover {background-color: #444;}
+        .white:hover {background-color: #eee;}
+        .C {grid-area: C;}
+        .D {grid-area: D;}
+        .E {grid-area: E;}
+        .F {grid-area: F;}
+        .G {grid-area: G;}
+        .A {grid-area: A;}
+        .B {grid-area: B; border-right: solid 1px black;}
+        .bD {left: calc(100% / 7);}
+        .bE {left: calc(100% * 2 / 7);}
+        .bG {left: calc(100% * 4 / 7);}
+        .bA {left: calc(100% * 5 / 7);}
+        .bB {left: calc(100% * 6 / 7);}
+    }
+    .checknext {
+        grid-area: checknext;
+        /* width: calc(100% - 2rem);
+        height: calc(100% - 2rem); */
+        width: 100%;
+        height: 100%;
+        background-color: #2b92f3;
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 3rem;
+    }
+}
+</style>
+</head>
+<body class="body" id="body">
+    <div class="play" onclick="current_sound.sound.play()">
+        <span class="material-symbols-outlined">
+            music_note
+        </span>
+    </div>
+    <div class="option">
+        <form class="form">
+            <div class="container">
+                <input type="radio" name="option" id="exclude" checked>
+                <label for="exclude">白鍵のみ</label>
+            </div>
+            <div class="container">
+                <input type="radio" name="option" id="include">
+                <label for="include">黒鍵含む</label>
+            </div>
+        </form>
+    </div>
+    <div class="keys">
+        <div class="key C white" onclick="set('C')">ド</div>
+        <div class="key D white" onclick="set('D')">レ</div>
+        <div class="key E white" onclick="set('E')">ミ</div>
+        <div class="key F white" onclick="set('F')">ファ</div>
+        <div class="key G white" onclick="set('G')">ソ</div>
+        <div class="key A white" onclick="set('A')">ラ</div>
+        <div class="key B white" onclick="set('B')">シ</div>
+        <div class="key bD black" onclick="set('bD')">#ド<br>bレ</div>
+        <div class="key bE black" onclick="set('bE')">#レ<br>bミ</div>
+        <div class="key bG black" onclick="set('bG')">#ファ<br>bソ</div>
+        <div class="key bA black" onclick="set('bA')">#ソ<br>bラ</div>
+        <div class="key bB black" onclick="set('bB')">#ラ<br>bシ</div>
+    </div>
+    <div class="checknext" onclick="checknext()">
+        CHECK!
+    </div>
+<script>
+const white_sound_name = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+const black_sound_name = ['D', 'E', 'G', 'A', 'B'];
+const option = document.getElementById('exclude');
+const checknext_html = document.querySelector('.checknext');
+
+var keys_html = {};
+var white = [];
+var black = [];
+var answer = "";
+var current_sound;
+var step = 1;
+
+for (let i = 0; i < white_sound_name.length; i++) {
+    let name = white_sound_name[i];
+    keys_html[name] = document.querySelector(`.${name}`);
+    for (let j = 3; j < 6; j++) {
+        let text = `${name}${j}`;
+        let sound = new Audio(`./mp3/白鍵/${text}.mp3`);
+        white.push({name: name, sound: sound});
+    }
+}
+
+for (let i = 0; i < black_sound_name.length; i++) {
+    let name = `b${black_sound_name[i]}`;
+    keys_html[name] = document.querySelector(`.${name}`);
+    for (let j = 3; j < 6; j++) {
+        let text = `${name}${j}`;
+        let sound = new Audio(`./mp3/黒鍵/${text}.mp3`);
+        black.push({name: name, sound: sound});
+    }
+}
+
+var united = white.concat(black);
+
+function reset() {
+    checknext_html.innerHTML = 'CHECK!';
+    white_sound_name.forEach(element => {
+        keys_html[element].classList.remove('wrong');
+        keys_html[element].classList.remove('correct');
+    });
+    black_sound_name.forEach(element => {
+        keys_html[`b${element}`].classList.remove('wrong');
+        keys_html[`b${element}`].classList.remove('correct');
+    });
+    answer = '';
+    step = 1;
+}
+
+function ask() {
+    let sounds;
+    if (option.checked) {
+        sounds = white;
+    } else {
+        sounds = united;
+    }
+    let r = Math.floor(Math.random() * sounds.length);
+    current_sound = sounds[r];
+    current_sound.sound.play();
+}
+
+function set(text) {
+    answer = text;
+}
+
+function checknext() {
+    if (step == 1) {
+        step = 2;
+        if (answer != '') {
+            keys_html[answer].classList.add('wrong');
+        }
+        keys_html[current_sound.name].classList.add('correct');
+        keys_html[current_sound.name].classList.remove('wrong');
+        checknext_html.innerHTML = 'NEXT!';
+    } else if (step == 2) {
+        reset();
+        ask();
+    }
+}
+
+window.onload = () => {
+    ask();
+}
+</script>
+</body>
+</html>
