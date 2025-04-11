@@ -175,7 +175,7 @@ for (let i = 0; i < white_sound_name.length; i++) {
     keys_html[name] = document.querySelector(`.${name}`);
     for (let j = 3; j < 6; j++) {
         let text = `${name}${j}`;
-        let sound = new Audio(`./mp3/白鍵/${text}.mp3`);
+        let sound = new Audio(`./${text}.mp3`);
         white.push({name: name, sound: sound});
     }
 }
@@ -185,7 +185,7 @@ for (let i = 0; i < black_sound_name.length; i++) {
     keys_html[name] = document.querySelector(`.${name}`);
     for (let j = 3; j < 6; j++) {
         let text = `${name}${j}`;
-        let sound = new Audio(`./mp3/黒鍵/${text}.mp3`);
+        let sound = new Audio(`./${text}.mp3`);
         black.push({name: name, sound: sound});
     }
 }
