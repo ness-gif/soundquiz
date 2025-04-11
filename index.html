@@ -21,6 +21,7 @@
 * {
     margin: 0;
     padding: 0;
+    user-select: none;
     font-family: "Noto Sans JP", sans-serif;
 }
 
@@ -123,7 +124,7 @@ body {
 </style>
 </head>
 <body class="body" id="body">
-    <div class="play" onclick="current_sound.sound.play()">
+    <div class="play" onclick="play()">
         <span class="material-symbols-outlined">
             music_note
         </span>
@@ -215,6 +216,12 @@ function ask() {
     }
     let r = Math.floor(Math.random() * sounds.length);
     current_sound = sounds[r];
+    play();
+}
+
+function play() {
+    current_sound.sound.pause();
+    current_sound.sound.currentTime = 0;
     current_sound.sound.play();
 }
 
